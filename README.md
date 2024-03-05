@@ -1,39 +1,30 @@
-# JavaScript Code Summary
+<div dir="rtl">
 
-This JavaScript code serves an e-commerce website, facilitating various functionalities such as product browsing, cart management, and checkout process.
+# مُلخَّصُ الرَّمز البَرمَجِي
 
-[e-commerce live site](https://e-commerce-19025198.netlify.app)
+يُقدِّمُ هَذا الرَّمز البَرمَجِيَّ مَوقِعًا إلكتْرونِيًّا للتِجارَة الإلكتْرونِيَّة، يُمكِّنُ المُسْتَخْدِمَ مِنْ القِيامِ بِمُخْتَلَفِ الوَظَائِفِ مِثْلَ تَصْفُّحِ المُنْتَجات وإدارَةِ السَلَّةِ وَعَمَلِيَّةِ الدَّفْع.
+لَقَدْ قُمْتُ بِبِنَاءِ الْمَوْقِعِ بِالِاعْتِمَادِ عَلَى تَقْنِيَّاتِ الْوِيبِ الْحَدِيثَةِ مِثْلَ HTML وَ CSS وَ Bootstrap وَ JavaScript.
 
-## Key Features:
+[رابطُ المَوقِع عَلَى نِيتلفاي](https://e-commerce-19025198.netlify.app)
 
-1. **Data Handling:**
+## المَيِّزاتُ الرَئيسِيَّة:
+١. التَعَامُلُ مَعَ البَيانَاتِ:
+   - يَسْتُورِدُ بَيانَاتُ المُنْتَجات مِنْ مَصْدَرٍ خَارِجِيّ.
+   - يَسْتَخْدِمُ وَظَائِفَ لِإدارَةِ بَيانَاتِ المُنْتَجَات.
+٢. التَفَاعُلُ مَعَ وَاجِهَةِ المُسْتَخْدِمِ:
+   - يَقُومُ بِإعْدَادِ أَحَدَاثٍ لأزرَارِ مُعَيَّنة لِتَمْكِينِ المُسْتَخْدِمِينَ مِنْ إضافَةِ العُناصِرِ إلى سَلَّتِهِمْ.
+   - يُحَدِّثُ الوَاجِهَةَ بِشَكْلٍ دَيْنَامِيكِيّ عِنْدَمَا يَتَمُّ إضَافَةُ أَوْ إزَالَةُ عُنْصُرٍ مِنَ السَلَّةِ.
+٣. تَصْفِحُ الصَّفَحَاتِ:
+   - يُوفِّرُ وَظِيفَةً لِلتَّبْدِيِلِ بَيْنَ صَفَحَاتِ عَرْضِ المُنْتَجَاتِ وَتَفَاصِيلِ المُنْتَج.
+٤. إدَارَةُ السَلَّةِ:
+   - يَسْمَحُ لِلمُسْتَخْدِمِينَ بِزِيَادَةِ أَوْ تَقْلِيلِ كَمِيَّةِ العُنْصُرِ في السَلَّةِ.
+   - يَقُومُ بِحَسَابِ وَعَرْضِ السِعْرِ الإجْمَالِيِّ لِلعُنْصُرِ في السَلَّةِ.
+   - يُمَكِّنُ المُسْتَخْدِمِينَ مِنْ إزَالَةِ العُنْصُرِ مِنَ السَلَّةِ.
+٥. مُعَالَجَةُ الدَّفْعِ:
+   - يَقُومُ بِمَسْحِ العُنْصُرِ مِنَ السَلَّةِ وَالوَاجِهَةِ بَعْدَ اكْتِمَالِ عَمَلِيَّةِ الدَّفْعِ.
 
-   - Imports product data from an external source.
-   - Utilizes functions to manipulate and manage product data.
-
-2. **User Interface Interaction:**
-
-   - Sets up event listeners for checkout buttons to enable users to add items to their carts.
-   - Dynamically updates the UI when items are added or removed from the cart.
-
-3. **Page Navigation:**
-
-   - Provides functionality to toggle between product listing and product details pages.
-
-4. **Cart Management:**
-
-   - Allows users to increase or decrease the quantity of items in the cart.
-   - Calculates and displays the total price of items in the cart.
-   - Enables users to remove items from the cart.
-
-5. **Payment Handling:**
-   - Clears items from the cart and UI upon completion of payment.
-
-## Usage:
-
-- Users can browse products and view details.
-- Users can add items to their carts and proceed to checkout.
-- The UI dynamically updates to reflect changes in the cart.
-- Users can complete the payment process, clearing the cart afterward.
-
-This JavaScript code effectively provides functionality of an e-commerce platform, providing a seamless shopping experience for users.
+### الاِسْتِخْدَامُ:
+- يَمْكِنُ لِلمُسْتَخْدِمِينَ تَصْفُحَ المُنْتَجَاتِ وَعَرْضَ التَّفَاصِيلِ.
+- يَمْكِنُ لِلمُسْتَخْدِمِينَ إضَافَةَ عُنْصُرٍ إلَى سَلَّتِهِمْ وَالانْتِقَالِ إلَى عَمَلِيَّةِ الدَّفْعِ.
+- تُحَدِّثُ الوَاجِهَةُ دَيْنَامِيكِيًّا لِعَكْسِ التَّغِيِّرَاتِ فِي السَلَّةِ.
+- يَمْكِنُ لِلمُسْتَخْدِمِينَ إكْمَالَ عَمَلِيَّةِ الدَّفْعِ، وَمَسْحَ السَلَّةِ بَعْدَ ذَلِكَ.
