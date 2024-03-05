@@ -1,0 +1,449 @@
+/* Fonts */
+@font-face {
+  font-family: "IBMPlexSansArabic-Regular";
+  src: url("../assets/fonts/IBMPlexSansArabic-Regular.ttf");
+}
+@font-face {
+  font-family: "IBMPlexSansArabic-Bold";
+  src: url("../assets/fonts/IBMPlexSansArabic-Bold.ttf");
+}
+/* Gloables */
+::-webkit-scrollbar {
+  display: none;
+}
+* {
+  font-family: "IBMPlexSansArabic-Regular";
+  text-wrap: balance;
+}
+body.no-scrolling {
+  overflow: hidden;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-family: "IBMPlexSansArabic-Bold";
+}
+button:disabled {
+  background-color: var(--bs-gray-100) !important;
+  color: var(--bs-gray) !important;
+  border-color: var(--bs-gray) !important;
+}
+/* Navigation and header custom styles */
+body > header {
+  background-image: url("../assets/images/banner/mobile.jpg"),
+    linear-gradient(-45deg, #ed137b, #27272c, #f14742);
+  background-size: cover;
+  background-blend-mode: overlay;
+}
+nav {
+  overflow-x: clip;
+}
+nav.navigation {
+  padding-inline: calc((25% - 35px) / 2) !important;
+}
+nav .logo {
+  width: 45px;
+}
+nav .toggle {
+  width: 35px;
+  z-index: 777;
+  background-image: url("../assets/images/icons/menu.svg");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  transition: 0.25s;
+}
+/* Active class will appear on toggle while clicking on it */
+nav .toggle.active {
+  background-image: url("../assets/images/icons/close.svg");
+  transition-delay: 0.3s;
+}
+nav .links {
+  transform: translateX(100%);
+  opacity: 0;
+  transition: 0.25s;
+  z-index: 333;
+}
+/* Show class will appear on links while clicking on toggle button */
+nav .links.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+nav .links::after {
+  content: "";
+  width: 33.33%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: translateX(-100vw);
+  opacity: 0;
+  transition: 0s;
+}
+nav .links.show::after {
+  transform: translateX(calc(-100vw + 100%));
+  opacity: 1;
+  transition: 0.25s 0.15s;
+}
+nav .links li a {
+  padding-right: 1.8rem;
+  background-image: var(--menu-icon);
+  background-size: 1.2rem;
+  background-repeat: no-repeat;
+  background-position: calc(100% - 0.3rem) center;
+  transition: 0.25s;
+}
+nav .links li a:hover {
+  background-image: var(--menu-hover-icon);
+}
+/* This is a nice effect on the navigation links*/
+nav .links li a:not(.btn)::after {
+  content: "";
+  width: 90%;
+  height: 2px;
+  background-color: var(--bs-danger);
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  opacity: 0;
+  transition: 0.25s;
+}
+nav .links li a:hover::after {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+}
+nav .links li a:not(.btn):hover {
+  color: var(--bs-danger) !important;
+}
+nav .links li a.btn {
+  position: relative;
+}
+/* This is styling for items number bubble*/
+nav .links li a.btn::after {
+  content: attr(data-value);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.75rem;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  color: var(--bs-danger);
+  background-color: #fff;
+  border: 1px solid #ddd;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  transition: 0.25s;
+}
+nav + div {
+  min-height: calc(100vh - 71.75px);
+}
+nav + div h1 {
+  text-shadow: 0 0 2px #344;
+}
+/* Products page custom styles */
+.product {
+  max-height: 420px;
+  padding: 25px;
+  z-index: 222;
+}
+.product .content {
+  background-image: linear-gradient(to top, rgb(102, 20, 20), transparent);
+  transform-origin: center bottom;
+  transform: scaleY(0.6);
+  opacity: 0;
+  transition: all 0.25s 0.2s;
+}
+.product:hover .content {
+  transform: scaleY(1);
+  opacity: 1;
+}
+/* Details page custom styles */
+.details-temp .slider {
+  height: 400px;
+}
+.details-temp .slider .slide {
+  width: 100%;
+  height: 300px;
+  align-self: start;
+  opacity: 0;
+  scale: 0.7;
+  transition: 0.25s;
+}
+.details-temp .slider .slide img {
+  width: 75%;
+}
+/* Active class will appear on slide while clicking on the indicator that match its slide*/
+.details-temp .slider .slide.active {
+  opacity: 1;
+  scale: 1;
+}
+.details-temp .slider .indicators {
+  width: 100px;
+  height: 45px;
+}
+.details-temp .slider .indicators li {
+  background-image: var(--img-url);
+  background-size: 75%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
+/* Active class will appear on the clicked indicator*/
+.details-temp .slider .indicators li.active {
+  background-color: rgba(220, 53, 69, 0.75);
+  background-blend-mode: overlay;
+}
+/* Features in details page custom styles */
+.details-temp .features > div {
+  padding-right: 40px;
+  background-image: var(--icon-url);
+  background-size: 30px;
+  background-repeat: no-repeat;
+  background-position: calc(100% - 5px) center;
+}
+.details-temp .colors ul li {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--bg-color);
+  border: 2px solid #ddd;
+  cursor: pointer;
+  transition: 0.25s;
+}
+/* Active class will appear on the clicked color*/
+.details-temp .colors ul li.active,
+.details-temp .colors ul li:hover {
+  border-color: var(--bs-danger);
+}
+/* Products page custom styles */
+.products-main {
+  overflow: clip;
+}
+.products-main > .details-temp,
+.products-main > .products-temp {
+  opacity: 0;
+  transform: scale(0.7);
+  transition: 0.25s;
+  pointer-events: none;
+}
+/* Active class will appear on one page (details or products pages) depends on clicking on details or return to products buttons*/
+.products-main .details-temp.active,
+.products-main > .products-temp.active {
+  position: static !important;
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: initial;
+}
+/* Checkout custom styles */
+.checkout-main .cart-items li:nth-of-type(even) {
+  background-color: var(--bs-light);
+}
+.checkout-main .cart-items li .info div {
+  display: block !important;
+  width: 25px !important;
+  height: 25px !important;
+  border: 1px solid var(--bs-danger);
+}
+.checkout-main .cart-items li .close-button {
+  background-image: url("../assets/images/icons/plus.svg") !important;
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  transform: translate(-50%, -50%) rotate(45deg);
+  top: 0;
+  left: 100%;
+  transition: 0.25s;
+}
+.checkout-main .cart-items li .close-button:focus,
+.checkout-main .cart-items li .close-button:hover {
+  box-shadow: 0 0 0 0.25rem rgb(253 13 13 / 25%);
+  opacity: 1 !important;
+}
+.checkout-main .cart-items:empty {
+  height: 250px;
+  border-radius: 10px;
+  background-color: #f8f8f8;
+  background-image: url("../assets/images/icons/empty-cart.png");
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: center 10%;
+  border: 1px dashed var(--bs-gray);
+}
+.checkout-main .order-summary:empty {
+  padding: 1.25rem;
+}
+.checkout-main .order-summary:empty::after {
+  content: "هُنا يَتِمُ حِسابُ المَبلغ الكُلّي";
+  display: block;
+  text-align: center;
+}
+.checkout-main .cart-items:empty:after {
+  content: "سَلَّة المُشتَريَات فَارِغَة!";
+  width: 100%;
+  height: 82%;
+  color: var(--bs-gray-500);
+  font-size: 1.2rem;
+  font-family: "IBMPlexSansArabic-Bold";
+  text-align: center;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  position: absolute;
+}
+.checkout-main .cart-items .more,
+.checkout-main .cart-items .less {
+  display: block;
+  width: 24px;
+  height: 24px;
+  opacity: 0.5;
+  background-image: url("../assets/images/icons/plus.svg");
+  background-size: 22px;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  transition: 0.25s;
+}
+.checkout-main .cart-items .less {
+  background-image: url("../assets/images/icons/minus.svg");
+}
+.checkout-main .cart-items li .more:hover,
+.checkout-main .cart-items li .less:hover {
+  box-shadow: 0 0 0 0.25rem rgb(253 13 13 / 25%);
+  opacity: 1;
+  background-color: var(--bs-danger);
+}
+/* Contact form custom styles */
+.contact-form #validationMessage {
+  height: 190px;
+  resize: none;
+}
+.contact-form .form-control:focus {
+  border-color: #fe86c8;
+  box-shadow: 0 0 0 0.25rem rgba(253, 13, 93, 0.25);
+}
+/* Footer custom styles */
+footer {
+  min-height: 100vh;
+}
+footer .links li a {
+  transition: 0.25s;
+}
+footer .links li a:hover {
+  color: var(--bs-danger) !important;
+}
+footer .logo {
+  width: 70px !important;
+}
+footer .social li a {
+  width: 30px;
+  height: 30px;
+  background-image: var(--social-icon);
+  background-size: 30px;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: 0.25s;
+}
+footer .social li a:hover {
+  background-image: var(--social-hover-icon);
+}
+/* Media queries */
+/* Custom styles for mobile screens */
+@media screen and (min-width: 400px) {
+  .details-temp .slider .slide img {
+    width: 68%;
+  }
+  .checkout-main .cart-items:empty {
+    background-size: 30%;
+  }
+}
+@media screen and (min-width: 500px) {
+  .product {
+    max-height: 420px;
+    padding: 50px;
+  }
+  .details-temp .slider .slide img {
+    width: 45%;
+  }
+}
+@media screen and (min-width: 576px) {
+  .checkout-main .cart-items:empty {
+    background-size: 40%;
+  }
+}
+/* Custom styles for tablet screens */
+@media screen and (min-width: 768px) {
+  body.no-scrolling {
+    overflow: auto;
+  }
+  body > header {
+    background-image: url("../assets/images/banner/tablet.jpg"),
+      linear-gradient(to bottom, var(--bs-orange), #333, var(--bs-danger));
+  }
+  nav.navigation {
+    padding-inline: calc((12% - 35px) / 2) !important;
+    background-color: rgba(255, 255, 255, 0.25) !important;
+    backdrop-filter: blur(20px);
+    border-radius: 0 0 30px 30px;
+  }
+  nav .md-style {
+    width: fit-content !important;
+    height: auto !important;
+    position: static !important;
+    background-color: transparent !important;
+    transform: scale(1);
+    opacity: 1;
+  }
+  nan + div {
+    min-height: calc(100vh - 78px);
+  }
+  nav + div .md-style {
+    text-shadow: 0 0 5px #344;
+  }
+  .product {
+    max-height: 300px;
+    padding: 25px;
+  }
+  .product .content h3 {
+    font-size: 1.25rem;
+  }
+  .details-temp .slider .slide img {
+    width: 35%;
+  }
+  footer {
+    min-height: auto !important;
+  }
+  footer .logo {
+    width: 60px !important;
+  }
+}
+/* Custom styles for large screens */
+@media screen and (min-width: 992px) {
+  body > header {
+    background-image: url("../assets/images/banner/desktop.jpg"),
+      linear-gradient(to bottom, var(--bs-orange), #333, var(--bs-danger));
+  }
+  .details-temp .slider {
+    width: 30%;
+  }
+  .details-temp .slider .slide img {
+    width: 75%;
+  }
+  .details-temp .details {
+    width: 60%;
+  }
+  .checkout-main .cart-items:empty {
+    background-size: 30%;
+  }
+  .checkout-main .cart-items:empty:after {
+    height: 85%;
+  }
+}

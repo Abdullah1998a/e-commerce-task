@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="assets/images/logo.png" />
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <title>متجر هواتف ذكية</title>
+  </head>
+
+  <body id="home">
+    <div class="modal fade" id="addItemModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content text-bg-success text-center p-5">
+          لَقد تَم إضَافَة العُنصر إلى السلّة بِنَجَاح
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="removeItemModal"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content text-bg-danger text-center p-5">
+          لَقد تَمت إزَالة العُنصر مِنْ السلّة بِنَجَاح
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="paymentDoneModal"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content text-bg-success text-center p-5">
+          شُكراً لتَعامُلك مَعنا نَتمنى لَك يَوماً سَعيداً
+        </div>
+      </div>
+    </div>
+    <header>
+      <nav
+        class="container-fluid container-md bg-light py-2 px-0 d-flex align-items-center justify-content-between position-relative shadow-lg navigation"
+      >
+        <a href="index.html" class="logo"
+          ><img
+            class="img-fluid"
+            src="assets/images/logo.png"
+            alt="شعار المتجر"
+        /></a>
+        <div class="d-md-none ratio ratio-1x1 position-relative toggle"></div>
+        <ul
+          class="w-75 vh-100 list-unstyled p-4 p-md-3 m-0 links position-absolute top-0 start-0 d-flex flex-column flex-md-row justify-content-center align-items-md-center gap-4 gap-md-4 bg-white md-style"
+        >
+          <li class="fs-5">
+            <a
+              class="text-decoration-none link-dark position-relative"
+              style="
+                --menu-icon: url('../assets/images/icons/homepage.svg');
+                --menu-hover-icon: url('../assets/images/icons/active/homepage.svg');
+              "
+              href="index.html"
+              >الصَفحَة الرَّئسِيَّة</a
+            >
+          </li>
+          <li class="fs-5">
+            <a
+              class="text-decoration-none link-dark position-relative"
+              style="
+                --menu-icon: url('../assets/images/icons/products.svg');
+                --menu-hover-icon: url('../assets/images/icons/active/products.svg');
+              "
+              href="#products"
+              >مُنتَجاتِنا</a
+            >
+          </li>
+          <li class="fs-5">
+            <a
+              class="text-decoration-none link-dark position-relative"
+              style="
+                --menu-icon: url('../assets/images/icons/contact.svg');
+                --menu-hover-icon: url('../assets/images/icons/active/contact.svg');
+              "
+              href="#contact"
+              >تَواصَل مَعنا</a
+            >
+          </li>
+          <li class="fs-5 items">
+            <a
+              class="btn btn-danger text-light"
+              data-value="٠"
+              style="
+                --menu-icon: url('../assets/images/icons/checkout.svg');
+                --menu-hover-icon: url('../assets/images/icons/checkout.svg');
+              "
+              href="#checkout"
+              >سَلة المُشتَريات</a
+            >
+          </li>
+        </ul>
+      </nav>
+      <div
+        class="container d-flex justify-content-center align-items-center text-center"
+      >
+        <div class="row justify-content-center">
+          <h1 class="col-10 col-sm-8 text-light lh-lg mb-3 md-style">
+            احصُل عَلى هَاتِف جَديد بِجودةٍ مُميّزة وسِعر في مُتَناول اليد
+          </h1>
+          <div
+            class="col-12 col-sm-8 d-flex justify-content-center align-items-center gap-4"
+          >
+            <a class="col-4 col-lg-3 btn btn-danger" href="#products"
+              >مُنتَجاتِنا</a
+            >
+            <a class="col-4 col-lg-3 btn btn-light" href="#contact"
+              >تَواصل مَعنا</a
+            >
+          </div>
+        </div>
+      </div>
+    </header>
+    <main>
+      <section
+        class="min-vh-100 position-relative container products-main"
+        id="products"
+      >
+        <div
+          class="d-flex flex-column px-2 py-4 position-absolute top-0 start-0 products-temp active"
+        >
+          <h1 class="text-danger">المُنتَجات المُتوافِرة لَدينا</h1>
+          <p class="text-muted">نُقَدِّمُ لَك الجَودة التي تَسْتَحِقُها.</p>
+          <div
+            class="row p-3 justify-content-center align-items-center gap-4 products"
+          ></div>
+        </div>
+        <div
+          class="d-flex flex-column px-2 py-4 position-absolute top-0 start-0 details-temp"
+        >
+          <header class="py-3 px-1">
+            <button class="btn btn-outline-danger">
+              الرُّجوع لِصَفحَةالمُنتَجات
+            </button>
+            <h1 class="text-danger mt-3">تَفاصِيل المُنتَج</h1>
+          </header>
+          <main
+            class="py-3 px-1 d-lg-flex justify-content-between align-items-center"
+          ></main>
+        </div>
+      </section>
+      <section
+        class="min-vh-100 d-flex flex-column justify-content-center container py-4 checkout-main"
+        id="checkout"
+      >
+        <div class="row flex-grow-1 justify-content-center align-items-between">
+          <header class="px-3 mb-4 col-12">
+            <h2 class="h1 text-danger">التَدْقيق والدَّفع</h2>
+            <p class="text-muted">
+              قُمْ بتَدقِيق ومُراجعَة مُحتويَات السَلَّة قَبل الدَّفع.
+            </p>
+          </header>
+          <div
+            class="col-12 col-md-11 col-lg-8 d-flex flex-column flex-md-row align-items-md-end justify-content-between gap-2 px-3 items-section"
+          >
+            <ul
+              class="col-md-7 list-group list-group-flush position-relative cart-items"
+            ></ul>
+            <div class="col-md-5 d-flex flex-column align-items-streach gap-2">
+              <div class="card position-relative order-summary"></div>
+              <button
+                class="btn btn-danger payment-button"
+                data-bs-toggle="modal"
+                data-bs-target="#paymentDoneModal"
+                disabled
+              >
+                تَأكيد الدَّفع
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section
+        class="min-vh-100 d-flex flex-column justify-content-center container gap-3 py-4"
+        id="contact"
+      >
+        <header class="px-2 flex-grow-1">
+          <h2 class="h1 text-danger">تَواصَل مَعنا</h2>
+          <p class="text-secondary">
+            ارسِل لنا رِسَالة في حَال واجَهتك أي مُشكِلة.
+          </p>
+        </header>
+        <div class="px-2 flex-grow-1">
+          <div class="row justify-content-center">
+            <form
+              class="col-sm-8 col-md-6 col-lg-5 col-xl-4 d-flex flex-column gap-3 needs-validation contact-form"
+              name="feedback"
+              method="post"
+              netlify
+              novalidate
+            >
+              <div>
+                <label for="validationName" class="form-label">الاسم</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="name"
+                  id="validationName"
+                  required
+                />
+                <div class="invalid-feedback">
+                  مِن فَضلك ادخِل اسمَك بِشكل صَحيح.
+                </div>
+              </div>
+              <div>
+                <label for="validationEmail" class="form-label"
+                  >الإيميل الإلكتروني</label
+                >
+                <input
+                  type="email"
+                  class="form-control"
+                  name="email"
+                  id="validationEmail"
+                  required
+                />
+                <div class="invalid-feedback">
+                  مِن فَضلك ادخِل ايميلك بِشكل صَحيح.
+                </div>
+              </div>
+              <div>
+                <label for="validationMessage" class="form-label"
+                  >الرِسَالة</label
+                >
+                <textarea
+                  class="form-control"
+                  name="message"
+                  id="validationMessage"
+                  required
+                ></textarea>
+                <div class="invalid-feedback">
+                  مِن فَضلك ادخِل رِسَالتك بِشكل صَحيح.
+                </div>
+              </div>
+              <button
+                class="btn btn-danger py-2 rounded-pill send-message"
+                type="submit"
+              >
+                ارْسَال
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="d-flex flex-column justify-content-center bg-dark py-4">
+      <div class="container">
+        <div
+          class="row justify-content-center justify-content-md-between gap-4"
+        >
+          <div class="col-md-6 d-md-flex gap-4">
+            <a href="#home" class="d-block mx-auto logo"
+              ><img
+                class="img-fluid"
+                src="assets/images/logo.png"
+                alt="شعار المتجر"
+            /></a>
+            <ul
+              class="col-md-6 list-unstyled mt-4 mt-md-0 d-flex flex-column justify-content-center align-items-center gap-4 links"
+            >
+              <li>
+                <a
+                  class="text-decoration-none link-light position-relative"
+                  href="#home"
+                  >الصَفحَة الرَّئسِيَّة</a
+                >
+              </li>
+              <li>
+                <a
+                  class="text-decoration-none link-light position-relative"
+                  href="#products"
+                  >مُنتَجاتِنا</a
+                >
+              </li>
+              <li>
+                <a
+                  class="text-decoration-none link-light position-relative"
+                  href="#contact"
+                  >تَواصَل مَعنا</a
+                >
+              </li>
+              <li>
+                <a
+                  class="text-decoration-none link-light position-relative"
+                  href="#checkout"
+                  >سَلة المُشتَريات</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div
+            class="col-sm-12 col-md-5 col-lg-4 d-flex flex-column align-items-center gap-4"
+          >
+            <form
+              class="col-10 col-sm-6 col-md-10 d-flex flex-column align-items-stretch gap-2 needs-validation"
+              novalidate
+            >
+              <div>
+                <label class="text-light mb-3"
+                  >لِمَزيد مِن الأخبَار وآخر العُروض اشتَرِك في مُدونتنا
+                  الآن</label
+                >
+                <input
+                  type="email"
+                  class="form-control"
+                  id="validationEmail"
+                  placeholder="example@gmail.com"
+                  required
+                />
+                <div class="invalid-feedback">
+                  مِن فَضلك ادخِل ايميلك بِشكل صَحيح.
+                </div>
+              </div>
+              <button class="btn btn-danger" type="submit">اشتِراك</button>
+            </form>
+            <ul
+              class="col-md-6 d-flex list-unstyled m-0 gap-3 justify-content-center align-items-center social"
+            >
+              <li>
+                <a
+                  class="d-block"
+                  style="
+                    --social-icon: url('../assets/images/icons/youtube.svg');
+                    --social-hover-icon: url('../assets/images/icons/active/youtube.svg');
+                  "
+                  href="https://www.youtube.com"
+                  target="_blank"
+                ></a>
+              </li>
+              <li>
+                <a
+                  class="d-block"
+                  style="
+                    --social-icon: url('../assets/images/icons/twitter.svg');
+                    --social-hover-icon: url('../assets/images/icons/active/twitter.svg');
+                  "
+                  href="https://www.twitter.com"
+                  target="_blank"
+                ></a>
+              </li>
+              <li>
+                <a
+                  class="d-block"
+                  style="
+                    --social-icon: url('../assets/images/icons/facebook.svg');
+                    --social-hover-icon: url('../assets/images/icons/active/facebook.svg');
+                  "
+                  href="https://www.facebook.com"
+                  target="_blank"
+                ></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
