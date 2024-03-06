@@ -80,6 +80,7 @@ nav .links::after {
   position: absolute;
   right: 0;
   top: 0;
+  pointer-events: none;
   transform: translateX(-100vw);
   opacity: 0;
   transition: 0s;
