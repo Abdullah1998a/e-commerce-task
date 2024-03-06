@@ -1,96 +1,23 @@
 // Importing products data from a module
 import { products } from "../data/db.js";
-
 // Function to generate product template HTML and display it on the page
 const productTemp = document.querySelector(".products");
 products.forEach((product) => {
   getProductTemplate(productTemp, product);
 });
-
 // Selecting elements from the DOM
-const cartItemsTemp = document.querySelector(".cart-items");
-const itemsCart = document.querySelector(".items .btn");
-const paymentBtn = document.querySelector(".payment-button");
-const orderSummary = document.querySelector(".order-summary");
 const checkoutBtns = document.querySelectorAll(".checkout-btn");
-
 // Looping through checkout buttons and adding click event listeners
 checkoutBtns.forEach((checkoutBtn) => {
   checkoutBtn.onclick = () => {
-    // Enabling payment button
-    paymentBtn.disabled = false;
-
     // Fetching product data and updating cart accordingly
     let certainProduct = getProductsData(products, checkoutBtn);
-    insertData(certainProduct, 1, certainProduct.colors[0]);
-    updateItemsNumber(itemsList, itemsCart);
-    getCartItemsTemplate(cartItemsTemp, itemsList);
-
-    // Adding event listeners for increasing and decreasing items in the cart
-    const moreBtns = document.querySelectorAll(".more");
-    const amountTemps = document.querySelectorAll(".amount-items-list");
-    moreBtns.forEach((moreBtn, ind) => {
-      moreBtn.onclick = () =>
-        increaseCartItems(
-          itemsList,
-          moreBtn,
-          amountTemps,
-          ind,
-          itemsCart,
-          orderSummary
-        );
-    });
-    const lessBtns = document.querySelectorAll(".less");
-    lessBtns.forEach((lessBtn, ind) => {
-      lessBtn.onclick = () =>
-        decreaseCartItems(
-          itemsList,
-          lessBtn,
-          amountTemps,
-          ind,
-          itemsCart,
-          cartItemsTemp,
-          orderSummary,
-          paymentBtn
-        );
-    });
-
-    // Calculating total price and updating order summary
-    getTotalPriceTemplate(orderSummary, itemsList);
-    const removeBtns = document.querySelectorAll(".close-button");
-
-    // Looping through remove buttons and adding click event listeners
-    removeBtns.forEach((removeBtn) => {
-      removeBtn.onclick = () =>
-        removeItem(
-          itemsList,
-          removeBtn,
-          itemsCart,
-          cartItemsTemp,
-          orderSummary,
-          paymentBtn,
-          removeItemModal
-        );
-    });
-
-    // Adding event listener for payment button click
-    paymentBtn.onclick = () => {
-      // Clearing items list, cart and hiding modals
-      itemsList = [];
-      clear(itemsList, itemsCart, cartItemsTemp, orderSummary, paymentBtn);
-      toggleInnerPages(productsTemp, detailsTemp, "return-home");
-      hideModal(paymentDoneModal, 3000);
-    };
-
-    // Hiding add item modal
-    hideModal(addItemModal);
+    checkout(certainProduct, 1, certainProduct.colors[0]);
   };
 });
-
 // Selecting elements from the DOM
 const detailsBtns = document.querySelectorAll(".details-btn");
 const featuresTemp = document.querySelector(".details-temp main");
-
 // Function to handle click event on details button
 detailsBtns.forEach((detailsBtn) => {
   detailsBtn.onclick = () => {
@@ -100,7 +27,6 @@ detailsBtns.forEach((detailsBtn) => {
     getFeaturesTemplate(featuresTemp, certainProduct);
     const slides = document.querySelectorAll(".slider .slide");
     const indicators = document.querySelectorAll(".indicators li");
-
     // Adding event listeners for sliders
     indicators.forEach((indicator, index) => {
       indicator.onclick = () => {
@@ -119,7 +45,6 @@ detailsBtns.forEach((detailsBtn) => {
     });
     const quantity = document.querySelector(".quantity span");
     const increaseQuantityBtn = document.querySelector(".quantity .plus");
-
     // Adding event listeners for quantity buttons
     increaseQuantityBtn.onclick = () =>
       increaseAmount(quantity, checkoutBtn, decreaseQuantityBtn);
@@ -127,93 +52,25 @@ detailsBtns.forEach((detailsBtn) => {
     decreaseQuantityBtn.onclick = () =>
       decreaseAmount(quantity, checkoutBtn, decreaseQuantityBtn);
     const checkoutBtn = document.querySelector(".shopping .checkout-btn");
-
     // adding click event listener on checkout button
+    let selectedColor;
     checkoutBtn.onclick = () => {
-      // Enabling payment button
-      paymentBtn.disabled = false;
-
       // Fetching product data and updating cart accordingly
       colorsBtns.forEach((colorsBtn) => {
         if (colorsBtn.classList.contains("active")) {
-          insertData(
-            certainProduct,
-            parseInt(quantity.getAttribute("data-quantity")),
-            colorsBtn.getAttribute("style").split(": ")[1]
-          );
+          selectedColor = colorsBtn.getAttribute("style").split(": ")[1];
         }
       });
-      updateItemsNumber(itemsList, itemsCart);
-      getCartItemsTemplate(cartItemsTemp, itemsList);
-
-      // Adding event listeners for increasing and decreasing items in the cart
-      const moreBtns = document.querySelectorAll(".more");
-      const amountTemps = document.querySelectorAll(".amount-items-list");
-      moreBtns.forEach((moreBtn, ind) => {
-        moreBtn.onclick = () =>
-          increaseCartItems(
-            itemsList,
-            moreBtn,
-            amountTemps,
-            ind,
-            itemsCart,
-            orderSummary
-          );
-      });
-      const lessBtns = document.querySelectorAll(".less");
-      lessBtns.forEach((lessBtn, ind) => {
-        lessBtn.onclick = () =>
-          decreaseCartItems(
-            itemsList,
-            lessBtn,
-            amountTemps,
-            ind,
-            itemsCart,
-            cartItemsTemp,
-            orderSummary,
-            paymentBtn
-          );
-      });
-
-      // Calculating total price and updating order summary
-      getTotalPriceTemplate(orderSummary, itemsList);
-
-      // Looping through remove buttons and adding click event listeners
-      const removeBtns = document.querySelectorAll(".close-button");
-      removeBtns.forEach((removeBtn) => {
-        removeBtn.onclick = () =>
-          removeItem(
-            itemsList,
-            removeBtn,
-            itemsCart,
-            cartItemsTemp,
-            orderSummary,
-            paymentBtn,
-            removeItemModal
-          );
-      });
-
+      checkout(certainProduct, parseInt(quantity.getAttribute("data-quantity")), selectedColor);
       // Reseting quantity buttons to their initial status
       amountBtnsStatus(quantity, checkoutBtn, decreaseQuantityBtn, "reset");
-
-      // Adding event listener for payment button click
-      paymentBtn.onclick = () => {
-        // Clearing items list, cart and hiding modals
-        clear(itemsList, itemsCart, cartItemsTemp, orderSummary, paymentBtn);
-        // Toggling between details and products pages
-        toggleInnerPages(productsTemp, detailsTemp, "return-home");
-        hideModal(paymentDoneModal, 2000);
-      };
-      hideModal(addItemModal);
     };
   };
 });
-
 // Return to products page function
 let returnProductsBtn = document.querySelector(".details-temp header button");
 returnProductsBtn.onclick = () =>
   toggleInnerPages(productsTemp, detailsTemp, "return");
-
 // Remove active class from any array's items
 function removeActive(...args) {
   args.forEach((arr) => {
@@ -222,7 +79,6 @@ function removeActive(...args) {
     });
   });
 }
-
 // Showing menu navigation in mobile size
 const toggle = document.querySelector(".toggle");
 const links = document.querySelector(".links");
@@ -243,20 +99,17 @@ linksMenu.forEach((linkMenu) => {
     document.body.classList.remove("no-scrolling");
   };
 });
-
 // Converting English numbers to Arabic ones
 function getArabicNumbers(num) {
-  let arabicNumber = num.toString().replace(/\d/g, (d) => "٠١٢٣٤٥٦٧٨٩"[d]);
+  let arabicNumber = num.toString().replace(/\d/g, (d) => "٠١٢٣٤٥٦٧٨٩" [d]);
   return arabicNumber;
 }
-
 // Converting Arabic numbers to English ones
 function getEnglishNumbers(num) {
   let englishNumber = num.replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
   return englishNumber;
 }
-
-// Validating contact and subscribe form 
+// Validating contact and subscribe forms
 (function validateContact() {
   const forms = document.querySelectorAll(".needs-validation");
   forms.forEach((form, ind) => {
@@ -291,8 +144,7 @@ function getEnglishNumbers(num) {
     }
   });
 })();
-
-// Making sure that there are no duplicates items in the cart (which have the same color and device's name)
+// Making sure that there are no duplicate items in the cart (which have the same color and device's name)
 function checkDuplicates(array) {
   let idCounts = {};
   array.forEach((item) => {
@@ -305,7 +157,6 @@ function checkDuplicates(array) {
   });
   return Object.values(idCounts);
 }
-
 // Rendering HTML to products page
 function getProductTemplate(container, data) {
   const {
@@ -333,9 +184,8 @@ function getProductTemplate(container, data) {
   `;
   return container;
 }
-
 // Rendering HTML to the cart section from checkout page
-function getCartItemsTemplate(container, data) {
+function getCartItemsTemplate(data, container) {
   container.innerHTML = "";
   for (let index = 0; index < data.length; index++) {
     container.innerHTML += `
@@ -372,7 +222,6 @@ function getCartItemsTemplate(container, data) {
   }
   return container;
 }
-
 // Rendering HTML to the colors section from details page
 function getColorsTemplate(colors) {
   let data = colors.map((color, ind) => {
@@ -384,7 +233,6 @@ function getColorsTemplate(colors) {
   });
   return data;
 }
-
 // Rendering HTML to details page for a certain product
 function getFeaturesTemplate(container, data) {
   let {
@@ -482,25 +330,9 @@ function getFeaturesTemplate(container, data) {
   `;
   return container;
 }
-
-// Calculating total price and updating order summary
-function getTotalPriceTemplate(container, data) {
-  let totalPrice = 0;
-  data.forEach(({ price, amount }) => {
-    totalPrice += parseInt(getEnglishNumbers(price)) * amount;
-  });
-  container.innerHTML = `
-    <div class="card-body text-center">
-      المَبْلَغ الكُلّي <span class="text-danger fs-3">${getArabicNumbers(
-        totalPrice
-      )}</span> دولار أمريكي
-    </div>
-  `;
-  return container;
-}
-
-// Fetching product data and updating cart accordingly
+// Initialize items list
 let itemsList = [];
+// Inserting new data to items list
 function insertData(data, amount, color) {
   itemsList.push({
     UID: Date.now(),
@@ -514,13 +346,11 @@ function insertData(data, amount, color) {
   itemsList = checkDuplicates(itemsList);
   return itemsList;
 }
-
 // Removing a certain product data from the cart
 function removeData(UID) {
   itemsList = itemsList.filter((item) => item.UID !== UID);
   return itemsList;
 }
-
 // Fetching products data from the database (I design the database file from scratch because I didn't find a satisfying API)
 function getProductsData(database, dataID) {
   let data = database.filter(
@@ -528,11 +358,11 @@ function getProductsData(database, dataID) {
   )[0];
   return data;
 }
-
-// Toggling between details and details pages with automatic scrolling 
+// Toggling between details and details pages with automatic scrolling
 const mainProducts = document.getElementById("products");
 const productsTemp = document.querySelector(".products-temp");
 const detailsTemp = document.querySelector(".details-temp");
+
 function toggleInnerPages(firstPage, secondPage, mode) {
   switch (mode) {
     case "return":
@@ -554,7 +384,6 @@ function toggleInnerPages(firstPage, secondPage, mode) {
       console.log("حدث خطأ ما");
   }
 }
-
 // Updating amount in details page depends on quantity buttons
 function updateAmountValue(quantity, mode = "increase") {
   switch (mode) {
@@ -580,8 +409,7 @@ function updateAmountValue(quantity, mode = "increase") {
       console.log("حدث خطأ ما");
   }
 }
-
-// Status of quantity buttons (initial state minus and checkout buttons are disabled if I incresed quantity they will turn into active stats automaticlly)
+// Status of quantity buttons (initial status minus and checkout buttons are disabled, if I incresed quantity they will turn into active status automatically)
 function amountBtnsStatus(
   quantity,
   checkoutBtn,
@@ -610,8 +438,7 @@ function amountBtnsStatus(
       console.log("حدث خطأ ما");
   }
 }
-
-// Updating the total number of items and adding it to the menu navigation specificly on checkout's bubble  
+// Updating the total number of items and adding it to the menu navigation specificly on checkout's bubble
 function updateItemsNumber(listItems, container) {
   let itemsNumber = 0;
   listItems.forEach(({ amount }) => {
@@ -619,13 +446,26 @@ function updateItemsNumber(listItems, container) {
   });
   container.setAttribute("data-value", `${getArabicNumbers(itemsNumber)}`);
 }
-
+// Calculating total price and updating order summary
+function getTotalPriceTemplate(container, data) {
+  let totalPrice = 0;
+  data.forEach(({ price, amount }) => {
+    totalPrice += parseInt(getEnglishNumbers(price)) * amount;
+  });
+  container.innerHTML = `
+    <div class="card-body text-center">
+      المَبْلَغ الكُلّي <span class="text-danger fs-3">${getArabicNumbers(
+        totalPrice
+      )}</span> دولار أمريكي
+    </div>
+  `;
+  return container;
+}
 // Increasing amount value function and updating status of quantity buttons
 function increaseAmount(quantity, checkoutBtn, decreaseQuantityBtn) {
   updateAmountValue(quantity);
   amountBtnsStatus(quantity, checkoutBtn, decreaseQuantityBtn, "set");
 }
-
 // Decreasing amount value function and updating status of quantity buttons
 function decreaseAmount(quantity, checkoutBtn, decreaseQuantityBtn) {
   if (parseInt(quantity.getAttribute("data-quantity")) < 2) {
@@ -635,16 +475,8 @@ function decreaseAmount(quantity, checkoutBtn, decreaseQuantityBtn) {
     amountBtnsStatus(quantity, checkoutBtn, decreaseQuantityBtn, "set");
   }
 }
-
 // Increasing items in the cart function and updating the total price and number of items
-function increaseCartItems(
-  itemsList,
-  moreBtn,
-  amountTemps,
-  index,
-  itemsCart,
-  orderSummary
-) {
+function increaseCartItems(itemsList, moreBtn, amountTemps, index) {
   let UID = parseInt(moreBtn.getAttribute("data-uid"));
   itemsList.forEach((item) => {
     if (item.UID === UID) {
@@ -655,18 +487,8 @@ function increaseCartItems(
   updateItemsNumber(itemsList, itemsCart);
   getTotalPriceTemplate(orderSummary, itemsList);
 }
-
 // Decreasing items in the cart function and updating the total price and number of items
-function decreaseCartItems(
-  itemsList,
-  lessBtn,
-  amountTemps,
-  ind,
-  itemsCart,
-  cartItemsTemp,
-  orderSummary,
-  paymentBtn
-) {
+function decreaseCartItems(itemsList, lessBtn, amountTemps, index) {
   let UID = parseInt(lessBtn.getAttribute("data-uid"));
   itemsList.forEach((item) => {
     if (item.UID === UID) {
@@ -678,56 +500,86 @@ function decreaseCartItems(
         removeItemModal.show();
         hideModal(removeItemModal);
         if (itemsList.length == 0) {
-          clear(itemsList, itemsCart, cartItemsTemp, orderSummary, paymentBtn);
+          clear();
         }
       } else {
         item.amount--;
-        amountTemps[ind].textContent = `×${getArabicNumbers(item.amount)}`;
+        amountTemps[index].textContent = `×${getArabicNumbers(item.amount)}`;
         getTotalPriceTemplate(orderSummary, itemsList);
       }
     }
   });
   updateItemsNumber(itemsList, itemsCart);
 }
-
 // Removing an item from the cart function and updating the total price and number of items
-function removeItem(
-  itemsList,
-  removeBtn,
-  itemsCart,
-  cartItemsTemp,
-  orderSummary,
-  paymentBtn,
-  removeItemModal
-) {
+function removeItem(itemsList, removeBtn) {
   let UID = parseInt(removeBtn.getAttribute("data-remove-id"));
   itemsList = removeData(UID);
   updateItemsNumber(itemsList, itemsCart);
   removeBtn.parentElement.remove();
   getTotalPriceTemplate(orderSummary, itemsList);
   if (itemsList.length == 0) {
-    clear(itemsList, itemsCart, cartItemsTemp, orderSummary, paymentBtn);
+    clear();
   }
   hideModal(removeItemModal);
 }
-
 // Initializing modals from bootstrap js file
 let addItemModal = new bootstrap.Modal("#addItemModal");
 let removeItemModal = new bootstrap.Modal("#removeItemModal");
 let paymentDoneModal = new bootstrap.Modal("#paymentDoneModal");
-
 // Function to hide modals after a certain delay
 function hideModal(modal, delay = 1000) {
-  setTimeout(function () {
+  setTimeout(function() {
     modal.hide();
   }, delay);
 }
-
-// Function to clear cart and hide modals 
-function clear(itemsList, itemsCart, cartItemsTemp, orderSummary, paymentBtn) {
+// Function to clear cart and hide modals
+function clear() {
   itemsList = [];
   itemsCart.setAttribute("data-value", "٠");
   cartItemsTemp.textContent = "";
   orderSummary.innerHTML = "";
   paymentBtn.disabled = true;
+}
+// Selecting elements from the DOM
+const cartItemsTemp = document.querySelector(".cart-items");
+const itemsCart = document.querySelector(".items .btn");
+const paymentBtn = document.querySelector(".payment-button");
+const orderSummary = document.querySelector(".order-summary");
+// Checkout function
+function checkout(certainProduct, amount, color) {
+  // Enabling payment button
+  paymentBtn.disabled = false;
+  // Fetching product data and updating cart accordingly
+  insertData(certainProduct, amount, color);
+  updateItemsNumber(itemsList, itemsCart);
+  getCartItemsTemplate(itemsList, cartItemsTemp);
+  // Adding event listeners for increasing and decreasing items in the cart
+  const moreBtns = document.querySelectorAll(".more");
+  const amountTemps = document.querySelectorAll(".amount-items-list");
+  moreBtns.forEach((moreBtn, ind) => {
+    moreBtn.onclick = () =>
+      increaseCartItems(itemsList, moreBtn, amountTemps, ind);
+  });
+  const lessBtns = document.querySelectorAll(".less");
+  lessBtns.forEach((lessBtn, ind) => {
+    lessBtn.onclick = () =>
+      decreaseCartItems(itemsList, lessBtn, amountTemps, ind);
+  });
+  // Calculating total price and updating order summary
+  getTotalPriceTemplate(orderSummary, itemsList);
+  // Looping through remove buttons and adding click event listeners
+  const removeBtns = document.querySelectorAll(".close-button");
+  removeBtns.forEach((removeBtn) => {
+    removeBtn.onclick = () => removeItem(itemsList, removeBtn);
+  });
+  // Adding event listener for payment button click
+  paymentBtn.onclick = () => {
+    // Clearing items list, cart and hiding modals
+    clear();
+    toggleInnerPages(productsTemp, detailsTemp, "return-home");
+    hideModal(paymentDoneModal, 3000);
+  };
+  // Hiding add item modal
+  hideModal(addItemModal);
 }
