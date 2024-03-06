@@ -40,7 +40,7 @@ nav {
   overflow-x: clip;
 }
 nav.navigation {
-  padding-inline: calc((25% - 35px) / 2) !important;
+  padding-inline: calc((15% - 35px) / 2) !important;
 }
 nav .logo {
   width: 45px;
@@ -61,6 +61,7 @@ nav .toggle.active {
   transition-delay: 0.3s;
 }
 nav .links {
+  width: 85%;
   transform: translateX(100%);
   opacity: 0;
   transition: 0.25s;
@@ -73,7 +74,7 @@ nav .links.show {
 }
 nav .links::after {
   content: "";
-  width: 33.33%;
+  width: 18%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.75);
   position: absolute;
