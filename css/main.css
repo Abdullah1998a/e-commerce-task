@@ -40,7 +40,7 @@ nav {
   overflow-x: clip;
 }
 nav.navigation {
-  padding-inline: calc((15% - 35px) / 2) !important;
+  padding-inline: calc((25% - 35px) / 2) !important;
 }
 nav .logo {
   width: 45px;
@@ -61,7 +61,7 @@ nav .toggle.active {
   transition-delay: 0.3s;
 }
 nav .links {
-  width: 85%;
+  width: 75%;
   transform: translateX(100%);
   opacity: 0;
   transition: 0.25s;
@@ -74,20 +74,21 @@ nav .links.show {
 }
 nav .links::after {
   content: "";
-  width: 18%;
+  width: 33.33%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.75);
   position: absolute;
   right: 0;
   top: 0;
-  pointer-events: none;
   transform: translateX(-100vw);
   opacity: 0;
+  pointer-events: none;
   transition: 0s;
 }
 nav .links.show::after {
   transform: translateX(calc(-100vw + 100%));
   opacity: 1;
+  pointer-events: auto;
   transition: 0.25s 0.15s;
 }
 nav .links li a {
