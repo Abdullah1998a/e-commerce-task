@@ -3,7 +3,7 @@ import { products } from "../data/db.js";
 // Function to generate product template HTML and display it on the page
 const productTemp = document.querySelector(".products");
 products.forEach((product) => {
-  getProductTemplate(productTemp, product);
+  getProductTemplate(product);
 });
 // Selecting elements from the DOM
 const checkoutBtns = document.querySelectorAll(".checkout-btn");
@@ -23,8 +23,8 @@ detailsBtns.forEach((detailsBtn) => {
   detailsBtn.onclick = () => {
     // Fetching product data and displaying details page
     let certainProduct = getProductsData(products, detailsBtn);
-    toggleInnerPages(productsTemp, detailsTemp, "details");
-    getFeaturesTemplate(featuresTemp, certainProduct);
+    toggleInnerPages("details");
+    getFeaturesTemplate(certainProduct);
     const slides = document.querySelectorAll(".slider .slide");
     const indicators = document.querySelectorAll(".indicators li");
     // Adding event listeners for sliders
@@ -70,7 +70,7 @@ detailsBtns.forEach((detailsBtn) => {
 // Return to products page function
 let returnProductsBtn = document.querySelector(".details-temp header button");
 returnProductsBtn.onclick = () =>
-  toggleInnerPages(productsTemp, detailsTemp, "return");
+  toggleInnerPages("return");
 // Remove active class from any array's items
 function removeActive(...args) {
   args.forEach((arr) => {
@@ -158,7 +158,7 @@ function checkDuplicates(array) {
   return Object.values(idCounts);
 }
 // Rendering HTML to products page
-function getProductTemplate(container, data) {
+function getProductTemplate(data) {
   const {
     id,
     name,
@@ -168,7 +168,7 @@ function getProductTemplate(container, data) {
     },
     price,
   } = data;
-  container.innerHTML += `
+  productTemp.innerHTML += `
     <div class="col-11 col-sm-9 col-md-5 col-lg-3 bg-light rounded position-relative shadow-sm overflow-hidden d-flex justify-content-center align-items-center product">
       <div class="img-holder">
         <img class="img-fluid" src=${src} alt="صورة أماميّة وخلفيّة للجِهاز">
@@ -182,59 +182,40 @@ function getProductTemplate(container, data) {
       </div>
     </div>
   `;
-  return container;
 }
 // Rendering HTML to the cart section from checkout page
-function getCartItemsTemplate(data, container) {
-  container.innerHTML = "";
-  for (let index = 0; index < data.length; index++) {
-    container.innerHTML += `
+function getCartItemsTemplate(data) {
+  cartItemsTemp.innerHTML = "";
+  data.forEach((item, index) => {
+    let { UID, brand, name, price, color, amount } = item;
+    cartItemsTemp.innerHTML += `
       <li class="list-group-item d-flex px-1 justify-content-between align-items-start position-relative">
-        <button class="btn-close bg-danger rounded-circle close-button" data-remove-id=${
-          data[index].UID
-        } data-bs-toggle="modal" data-bs-target="#removeItemModal"></button>
+        <button class="btn-close bg-danger rounded-circle close-button" data-remove-id=${UID} data-bs-toggle="modal" data-bs-target="#removeItemModal"></button>
         <div class="ms-2 me-auto">
-          <div class="fw-bold">${getArabicNumbers(index + 1)}. ${
-      data[index].brand
-    } ${data[index].name}</div>
-          <p><span class="text-danger fs-3">${
-            data[index].price
-          }</span> دولار أمريكي</p>
+          <div class="fw-bold">${getArabicNumbers(index + 1)}. ${brand} ${name}</div>
+          <p><span class="text-danger fs-3">${price}</span> دولار أمريكي</p>
         </div>
         <div class="align-self-stretch d-flex flex-column justify-content-between align-items-center info">
-          <span class="badge bg-danger px-3 rounded-pill amount-items-list">×${getArabicNumbers(
-            data[index].amount
-          )}</span>
-          <div class="badge rounded-circle" style="background: ${
-            data[index].color
-          }"></div>
+          <span class="badge bg-danger px-3 rounded-pill amount-items-list">×${getArabicNumbers(amount)}</span>
+          <div class="badge rounded-circle" style="background: ${color}"></div>
         </div>
         <div class="align-self-stretch d-flex flex-column align-items-center justify-content-between ms-2">
-          <span class="bg-danger rounded-circle more" data-uid=${
-            data[index].UID
-          }></span>
-          <span class="bg-danger rounded-circle less" data-uid=${
-            data[index].UID
-          }></span>
+          <span class="bg-danger rounded-circle more" data-uid=${UID}></span>
+          <span class="bg-danger rounded-circle less" data-uid=${UID}></span>
         </div>
       </li>
     `;
-  }
-  return container;
+  });
 }
 // Rendering HTML to the colors section from details page
 function getColorsTemplate(colors) {
   let data = colors.map((color, ind) => {
-    if (ind === 0) {
-      return `<li class="active" style="--bg-color: ${color}"></li>`;
-    } else {
-      return `<li style="--bg-color: ${color}"></li>`;
-    }
+    return `<li class=${ind == 0 ? "active" : null} style="--bg-color: ${color}"></li>`;
   });
   return data;
 }
 // Rendering HTML to details page for a certain product
-function getFeaturesTemplate(container, data) {
+function getFeaturesTemplate(data) {
   let {
     id,
     name,
@@ -245,7 +226,7 @@ function getFeaturesTemplate(container, data) {
     price,
   } = data;
   let colorsTemp = getColorsTemplate(colors);
-  container.innerHTML = `
+  featuresTemp.innerHTML = `
     <div class="position-relative d-flex justify-content-center align-items-end slider">
       <div class="position-absolute slide active">
         <img class="position-absolute top-50 start-50 translate-middle" src=${
@@ -328,7 +309,6 @@ function getFeaturesTemplate(container, data) {
       </div> 
     </div>
   `;
-  return container;
 }
 // Initialize items list
 let itemsList = [];
@@ -353,9 +333,9 @@ function removeData(UID) {
 }
 // Fetching products data from the database (I design the database file from scratch because I didn't find a satisfying API)
 function getProductsData(database, dataID) {
-  let data = database.filter(
+  let data = database.find(
     (item) => item.id === dataID.getAttribute("data-id")
-  )[0];
+  );
   return data;
 }
 // Toggling between details and details pages with automatic scrolling
@@ -363,21 +343,21 @@ const mainProducts = document.getElementById("products");
 const productsTemp = document.querySelector(".products-temp");
 const detailsTemp = document.querySelector(".details-temp");
 
-function toggleInnerPages(firstPage, secondPage, mode) {
+function toggleInnerPages(mode) {
   switch (mode) {
     case "return":
-      firstPage.classList.add("active");
-      secondPage.classList.remove("active");
+      productsTemp.classList.add("active");
+      detailsTemp.classList.remove("active");
       window.scrollTo(0, mainProducts.offsetTop);
       break;
     case "return-home":
-      firstPage.classList.add("active");
-      secondPage.classList.remove("active");
+      productsTemp.classList.add("active");
+      detailsTemp.classList.remove("active");
       window.scrollTo(0, 0);
       break;
     case "details":
-      firstPage.classList.remove("active");
-      secondPage.classList.add("active");
+      productsTemp.classList.remove("active");
+      detailsTemp.classList.add("active");
       window.scrollTo(0, mainProducts.offsetTop);
       break;
     default:
@@ -439,27 +419,26 @@ function amountBtnsStatus(
   }
 }
 // Updating the total number of items and adding it to the menu navigation specificly on checkout's bubble
-function updateItemsNumber(listItems, container) {
+function updateItemsNumber(data) {
   let itemsNumber = 0;
-  listItems.forEach(({ amount }) => {
+  data.forEach(({ amount }) => {
     itemsNumber += amount;
   });
-  container.setAttribute("data-value", `${getArabicNumbers(itemsNumber)}`);
+  itemsCart.setAttribute("data-value", `${getArabicNumbers(itemsNumber)}`);
 }
 // Calculating total price and updating order summary
-function getTotalPriceTemplate(container, data) {
+function getTotalPriceTemplate(data) {
   let totalPrice = 0;
   data.forEach(({ price, amount }) => {
     totalPrice += parseInt(getEnglishNumbers(price)) * amount;
   });
-  container.innerHTML = `
+  orderSummary.innerHTML = `
     <div class="card-body text-center">
       المَبْلَغ الكُلّي <span class="text-danger fs-3">${getArabicNumbers(
         totalPrice
       )}</span> دولار أمريكي
     </div>
   `;
-  return container;
 }
 // Increasing amount value function and updating status of quantity buttons
 function increaseAmount(quantity, checkoutBtn, decreaseQuantityBtn) {
@@ -484,17 +463,17 @@ function increaseCartItems(itemsList, moreBtn, amountTemps, index) {
       amountTemps[index].textContent = `×${getArabicNumbers(item.amount)}`;
     }
   });
-  updateItemsNumber(itemsList, itemsCart);
-  getTotalPriceTemplate(orderSummary, itemsList);
+  updateItemsNumber(itemsList);
+  getTotalPriceTemplate(itemsList);
 }
 // Decreasing items in the cart function and updating the total price and number of items
 function decreaseCartItems(itemsList, lessBtn, amountTemps, index) {
   let UID = parseInt(lessBtn.getAttribute("data-uid"));
   itemsList.forEach((item) => {
     if (item.UID === UID) {
-      if (item.amount == 1) {
-        item.amount--;
-        getTotalPriceTemplate(orderSummary, itemsList);
+      item.amount--;
+      getTotalPriceTemplate(itemsList);
+      if (item.amount < 1) {
         itemsList = removeData(item.UID);
         lessBtn.parentElement.parentElement.remove();
         removeItemModal.show();
@@ -503,21 +482,19 @@ function decreaseCartItems(itemsList, lessBtn, amountTemps, index) {
           clear();
         }
       } else {
-        item.amount--;
         amountTemps[index].textContent = `×${getArabicNumbers(item.amount)}`;
-        getTotalPriceTemplate(orderSummary, itemsList);
       }
     }
   });
-  updateItemsNumber(itemsList, itemsCart);
+  updateItemsNumber(itemsList);
 }
 // Removing an item from the cart function and updating the total price and number of items
 function removeItem(itemsList, removeBtn) {
   let UID = parseInt(removeBtn.getAttribute("data-remove-id"));
   itemsList = removeData(UID);
-  updateItemsNumber(itemsList, itemsCart);
+  updateItemsNumber(itemsList);
   removeBtn.parentElement.remove();
-  getTotalPriceTemplate(orderSummary, itemsList);
+  getTotalPriceTemplate(itemsList);
   if (itemsList.length == 0) {
     clear();
   }
@@ -552,8 +529,8 @@ function checkout(certainProduct, amount, color) {
   paymentBtn.disabled = false;
   // Fetching product data and updating cart accordingly
   insertData(certainProduct, amount, color);
-  updateItemsNumber(itemsList, itemsCart);
-  getCartItemsTemplate(itemsList, cartItemsTemp);
+  updateItemsNumber(itemsList);
+  getCartItemsTemplate(itemsList);
   // Adding event listeners for increasing and decreasing items in the cart
   const moreBtns = document.querySelectorAll(".more");
   const amountTemps = document.querySelectorAll(".amount-items-list");
@@ -567,7 +544,7 @@ function checkout(certainProduct, amount, color) {
       decreaseCartItems(itemsList, lessBtn, amountTemps, ind);
   });
   // Calculating total price and updating order summary
-  getTotalPriceTemplate(orderSummary, itemsList);
+  getTotalPriceTemplate(itemsList);
   // Looping through remove buttons and adding click event listeners
   const removeBtns = document.querySelectorAll(".close-button");
   removeBtns.forEach((removeBtn) => {
@@ -577,7 +554,7 @@ function checkout(certainProduct, amount, color) {
   paymentBtn.onclick = () => {
     // Clearing items list, cart and hiding modals
     clear();
-    toggleInnerPages(productsTemp, detailsTemp, "return-home");
+    toggleInnerPages("return-home");
     hideModal(paymentDoneModal, 3000);
   };
   // Hiding add item modal
